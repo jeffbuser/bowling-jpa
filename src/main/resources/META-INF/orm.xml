@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+
+	<entity class="org.goodbooze.bowling.bowler.Bowler" name="BowlerCore">
+		<table name="BOWLER" />
+		<attributes>
+			<id name="bowlerId">
+				<column name="BOWLER_ID" />
+				<generated-value strategy="AUTO" />
+			</id>
+			<basic name="usbcNumber">
+				<column name="BOWLER_USBC_NUMBER" />
+			</basic>
+			<basic name="bowlerName">
+				<column name="BOWLER_NAME" />
+			</basic>
+			<basic name="lastModified">
+				<column name="LAST_MODIFIED" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<one-to-many name="games" mapped-by="bowlerGames">
+				<join-column name="BOWLER_ID" />
+			</one-to-many>
+		</attributes>
+	</entity>
+
+	<entity class="org.goodbooze.bowling.games.TenPinGame" name="GameCore">
+		<table name="GAME" />
+		<attributes>
+			<id name="gameId">
+				<column name="GAME_ID"/>
+				<generated-value strategy="AUTO" />
+			</id>
+			<basic name="score">
+				<column name="SCORE" />
+			</basic>
+			<!--  TODO: Tie back relationship to bowler in core class -->
+			<!-- <many-to-one name="bowlerGames">
+				<join-column name="BOWLER_ID" />
+			</many-to-one> -->
+			<transient name="scoreFrame"/>
+			<transient name="bowlerId"/>
+			
+		</attributes>
+	</entity>
+
+</entity-mappings>
